@@ -1,9 +1,17 @@
 import "./App.css";
+import { NavBar } from "./components";
+import { Home } from "./pages";
+import { LayoutContainer } from "./layouts";
 
 function App() {
-  // const [count, setCount] = useState(0)
-
-  return <>Hola</>;
+  return (
+    <>
+      <NavBar />
+      <LayoutContainer>
+        <Home />
+      </LayoutContainer>
+    </>
+  );
 }
 
 export default App;
