@@ -15,7 +15,7 @@ export type NavBarProps = {
   // types...
 };
 
-const pages = ["users", "products"];
+const pages = ["products"];
 const settings = ["Profile", "Logout"];
 
 const NavBar: React.FC<NavBarProps> = () => {

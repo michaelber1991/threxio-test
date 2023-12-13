@@ -1,0 +1,11 @@
+.gridContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .gridOptions {
+    padding: 8px 0px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
