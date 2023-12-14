@@ -1,5 +1,5 @@
 "use client";
-import { Product, ProductCategory } from "@/models";
+import { Product } from "@/models";
 import { addProduct } from "@/redux/states";
 import { AppStore } from "@/redux/store";
 import styled from "@emotion/styled";
@@ -13,16 +13,20 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./GridBasic.scss";
+import { DialogForm } from "../DialogForm";
+import { getNextId } from "@/utilities/string.utility";
 
 export type GridBasicProps = {
   title: string;
 };
 
-const GridBasic: React.FC<GridBasicProps> = (props) => {
+const GridBasic: React.FC<GridBasicProps> = ({ title }) => {
   const products: Product[] = useSelector((store: AppStore) => store.products);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+
   const dispatch = useDispatch();
   const columnsActions: GridColDef[] = [
     {
@@ -34,10 +38,10 @@ const GridBasic: React.FC<GridBasicProps> = (props) => {
         <IconButton
           aria-label="delete"
           onClick={() => {
-            const productsFilytered = products.filter(
+            const productsFiltered = products.filter(
               (product) => product.id !== params.value
             );
-            dispatch(addProduct(productsFilytered));
+            dispatch(addProduct(productsFiltered));
           }}
         >
           <DeleteIcon />
@@ -94,25 +98,19 @@ const GridBasic: React.FC<GridBasicProps> = (props) => {
     ...columnsActions,
   ];
   const handleAddProduct = (product: Product) => {
+    product.id = `${getNextId(products)}`;
     dispatch(addProduct([...products, product]));
+    setIsAddModalOpen(false);
   };
 
   return (
     <div className="gridContainer">
       <div className="gridOptions">
-        <Typography variant="h4">{props.title}</Typography>
+        <Typography variant="h4">{title}</Typography>
         <Button
           variant="outlined"
           startIcon={<Add />}
-          onClick={() =>
-            handleAddProduct({
-              id: "31",
-              name: "hulk accesorio 80",
-              category: ProductCategory.Accesorios,
-              image: "image.jpg",
-              stock: 15,
-            })
-          }
+          onClick={() => setIsAddModalOpen(true)}
         >
           Add
         </Button>
@@ -126,6 +124,11 @@ const GridBasic: React.FC<GridBasicProps> = (props) => {
           getRowId={(row) => row.id}
         />
       </div>
+      <DialogForm
+        open={isAddModalOpen}
+        setOpen={() => setIsAddModalOpen(false)}
+        onAdd={(data) => handleAddProduct(data)}
+      />
     </div>
   );
 };

@@ -1,0 +1,12 @@
+.productsContainer {
+  margin-top: 70px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+
+  .inventoryOptions {
+    padding: 8px 0px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
